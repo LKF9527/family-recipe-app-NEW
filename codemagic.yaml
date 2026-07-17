@@ -1,0 +1,36 @@
+# Codemagic配置文件 - Flutter Android APK构建
+# 这是用于在Codemagic平台上构建Flutter Android应用的配置文件
+
+# 工作流定义
+workflows:
+  # Android APK构建工作流
+  android-workflow:
+    name: Android APK Build
+    environment:
+      # 指定Flutter版本
+      flutter: stable
+      # 指定Java版本
+      java: 17
+      # 指定Gradle版本
+      gradle: latest
+
+    # 构建脚本
+    scripts:
+      # 安装Flutter依赖
+      - name: Install Flutter dependencies
+        script: |
+          flutter pub get
+
+      # 代码检查（可选，可以跳过）
+      - name: Run Flutter analyze
+        script: |
+          flutter analyze
+
+      # 构建Android APK
+      - name: Build Android Release APK
+        script: |
+          flutter build apk --release
+
+    # 构建产物（输出的文件）
+    artifacts:
+      - build/app/outputs/apk/release/*.apk
